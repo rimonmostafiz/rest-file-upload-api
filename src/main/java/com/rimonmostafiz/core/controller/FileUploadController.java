@@ -35,9 +35,7 @@ public class FileUploadController {
             try {
                 FileInfo fileInfo = new FileInfo();
                 fileInfo.setOriginalFileName(file.getOriginalFilename());
-                logger.info("{}", file.getOriginalFilename());
                 String[] splitFileName = file.getOriginalFilename().split("\\.");
-                logger.info(String.valueOf(splitFileName.length));
                 fileInfo.setFileName(splitFileName[0]);
                 fileInfo.setFileSize(file.getSize());
                 byte[] bytes = file.getBytes();

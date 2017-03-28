@@ -28,7 +28,7 @@ public class NotificationService {
         this.javaMailSender = javaMailSender;
     }
 
-    @Scheduled(fixedDelay = 3600000)
+    @Scheduled(fixedDelay = 600000)
     public void sendNotification() throws MailException {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
