@@ -1,4 +1,4 @@
-# File Upload Rest API
+# Spring Boot File Upload Rest API
 ---------------------------
 
 ** GET  : localhost:8080 **
