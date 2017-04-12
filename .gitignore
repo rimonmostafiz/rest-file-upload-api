@@ -18,3 +18,5 @@ ship
 build
 target
 deploy.sh
+test
+lib
