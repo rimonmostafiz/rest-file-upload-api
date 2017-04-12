@@ -1,7 +1,6 @@
 package com.rimonmostafiz.core.repositories;
 
 import com.rimonmostafiz.core.model.FileInfo;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
