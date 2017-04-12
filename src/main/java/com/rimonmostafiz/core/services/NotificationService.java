@@ -34,8 +34,7 @@ public class NotificationService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setSubject("noreply");
-            //helper.setTo("qhfan@ucdavis.edu");
-            helper.setTo("ferary.rimon@gmail.com");
+            helper.setTo("example@mail.com");
             String mailBody = makeMailBody();
             helper.setText(mailBody, true);
             javaMailSender.send(message);
