@@ -45,4 +45,20 @@ public class FileInfoService {
         fileInfoRepo.save(fileInfo);
     }
 
+    public FileInfo isFileAlreadyExist(String fileName) {
+        List<FileInfo> filesList = getAllFileInfo();
+        if (filesList != null && filesList.size() > 0) {
+            for (FileInfo file : filesList) {
+                if (file.getOriginalFileName().equals(fileName)) {
+                    // setting status false for include this files info in mail
+                    file.setActive(false);
+                    return file;
+                }
+            }
+        }
+        return null;
+    }
+
+
+
 }

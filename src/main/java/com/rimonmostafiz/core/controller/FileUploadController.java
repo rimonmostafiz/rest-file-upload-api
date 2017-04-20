@@ -35,26 +35,36 @@ public class FileUploadController {
             try {
                 FileInfo fileInfo = new FileInfo();
                 fileInfo.setOriginalFileName(file.getOriginalFilename());
-                String[] splitFileName = file.getOriginalFilename().split("\\.");
-                fileInfo.setFileName(splitFileName[0]);
-                fileInfo.setFileSize(file.getSize());
-                byte[] bytes = file.getBytes();
-                String rootPath = SAVE_FILE_PATH;
-                logger.info("Root Path : {}", rootPath);
-                File dir = new File(rootPath);
-                if (!dir.exists()) {
-                    logger.info("Directory doesn't Exist!! Creating Directory....");
-                    dir.mkdir();
+                FileInfo duplicateFile = fileInfoService.isFileAlreadyExist(file.getOriginalFilename());
+                if (duplicateFile != null) {
+                    logger.debug("Skip Duplicate File Add only adding files Record!!");
+                    fileInfo.setFileName(duplicateFile.getFileName());
+                    fileInfo.setFileSize(duplicateFile.getFileSize());
+                    fileInfo.setFileUploadPath(duplicateFile.getFileUploadPath());
+                    fileInfo.setFileType(duplicateFile.getFileType());
+                    fileInfoService.addFileInfo(fileInfo);
+                } else {
+                    String[] splitFileName = file.getOriginalFilename().split("\\.");
+                    fileInfo.setFileName(splitFileName[0]);
+                    fileInfo.setFileSize(file.getSize());
+                    byte[] bytes = file.getBytes();
+                    String rootPath = SAVE_FILE_PATH;
+                    logger.info("Root Path : {}", rootPath);
+                    File dir = new File(rootPath);
+                    if (!dir.exists()) {
+                        logger.info("Directory doesn't Exist!! Creating Directory....");
+                        dir.mkdir();
+                    }
+                    File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                    stream.write(bytes);
+                    stream.close();
+                    logger.info("File Uploaded Successfully, File Location = {}", serverFile.getAbsolutePath());
+                    fileInfo.setFileUploadPath(serverFile.getAbsolutePath());
+                    logger.debug("File Content Type : {}", file.getContentType());
+                    fileInfo.setFileType(file.getContentType());
+                    fileInfoService.addFileInfo(fileInfo);
                 }
-                File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-                stream.write(bytes);
-                stream.close();
-                logger.info("File Uploaded Successfully, File Location = {}", serverFile.getAbsolutePath());
-                fileInfo.setFileUploadPath(serverFile.getAbsolutePath());
-                logger.debug("File Content Type : {}", file.getContentType());
-                fileInfo.setFileType(file.getContentType());
-                fileInfoService.addFileInfo(fileInfo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
