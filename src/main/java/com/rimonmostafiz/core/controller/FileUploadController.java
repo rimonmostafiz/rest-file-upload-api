@@ -30,7 +30,7 @@ public class FileUploadController {
     FileInfoService fileInfoService;
 
     @RequestMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, method = RequestMethod.POST)
-    public void uploadFile(@RequestParam("file") MultipartFile file) {
+    public void uploadFile(@RequestPart("file") MultipartFile file, @RequestPart("user") String userName) {
         if (!file.isEmpty()) {
             try {
                 FileInfo fileInfo = new FileInfo();
@@ -42,11 +42,13 @@ public class FileUploadController {
                     fileInfo.setFileSize(duplicateFile.getFileSize());
                     fileInfo.setFileUploadPath(duplicateFile.getFileUploadPath());
                     fileInfo.setFileType(duplicateFile.getFileType());
+                    fileInfo.setUserName(userName);
                     fileInfoService.addFileInfo(fileInfo);
                 } else {
                     String[] splitFileName = file.getOriginalFilename().split("\\.");
                     fileInfo.setFileName(splitFileName[0]);
                     fileInfo.setFileSize(file.getSize());
+                    fileInfo.setUserName(userName);
                     byte[] bytes = file.getBytes();
                     String rootPath = SAVE_FILE_PATH;
                     logger.info("Root Path : {}", rootPath);

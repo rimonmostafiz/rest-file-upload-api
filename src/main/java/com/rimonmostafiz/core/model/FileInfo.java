@@ -19,6 +19,15 @@ public class FileInfo {
     private String fileUploadPath;
     private String fileType;
     private boolean active;
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getFileType() {
         return fileType;
@@ -78,12 +87,15 @@ public class FileInfo {
 
     @Override
     public String toString() {
-        return "FileInfo {" +
+        return "FileInfo{" +
                 "id=" + id +
-                ", fileName='" + fileName + '\'' +
-                ", fileSize=" + fileSize +
-                ", fileUploadPath='" + fileUploadPath + '\'' +
-                ", fileType='" + fileType + '\'' +
+                ", File Name ='" + fileName + '\'' +
+                ", File Name With Extension ='" + originalFileName + '\'' +
+                ", File Size =" + fileSize +
+                ", File Upload Path ='" + fileUploadPath + '\'' +
+                ", File Type ='" + fileType + '\'' +
+                ", Status =" + active +
+                ", User ='" + userName + '\'' +
                 '}';
     }
 }

@@ -51,7 +51,7 @@ public class FileInfoService {
             for (FileInfo file : filesList) {
                 if (file.getOriginalFileName().equals(fileName)) {
                     // setting status false for include this files info in mail
-                    file.setActive(false);
+                    if (!file.isActive()) file.setActive(false);
                     return file;
                 }
             }
